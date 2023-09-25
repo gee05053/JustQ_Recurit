@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Select, Pagination, PaginationProps } from "antd";
+import { Select, Pagination, PaginationProps, Row, Col } from "antd";
 import ProductList from "../components/ProductList";
 import axios from "axios";
 
@@ -22,52 +22,46 @@ const ProductPage: React.FC = () => {
 				.then((res) => {
 					return res.data;
 				});
-			console.log(data.data);
 			setProductList(data.data);
 			setTotalPage(data.total);
 		};
 		fetchData();
 	}, [cardCount, pageCount]);
 	return (
-		<div
-			style={{
-				display: "flex",
-				justifyContent: "center",
-				height: "100vh",
-				flexDirection: "column",
-				marginInline: "10%",
-			}}
+		<Row
+			align="middle"
+			style={{ height: "100vh", marginInline: "10%" }}
 		>
-			<div style={{ display: "flex", justifyContent: "end" }}>
-				<Select
-					defaultValue="4"
-					style={{
-						width: "60px",
-						textAlign: "center",
-					}}
-					options={[
-						{ value: "4", label: 4 },
-						{ value: "8", label: 8 },
-						{ value: "24", label: 24 },
-						{ value: "64", label: 64 },
-						{ value: "128", label: 128 },
-					]}
-					onChange={(value: string) => setCardCount(Number(value))}
-				/>
-			</div>
-			<ProductList data={productlist} />
-			<Pagination
-				style={{
-					display: "flex",
-					justifyContent: "center",
-				}}
-				total={totalPage}
-				pageSize={cardCount}
-				defaultCurrent={1}
-				onChange={onChangePageCount}
-				showSizeChanger={false}
-			/>
-		</div>
+			<Col>
+				<div style={{ display: "flex", justifyContent: "end" }}>
+					<Select
+						defaultValue="4"
+						style={{
+							width: "67px",
+							textAlign: "center",
+						}}
+						options={[
+							{ value: "4", label: 4 },
+							{ value: "8", label: 8 },
+							{ value: "24", label: 24 },
+							{ value: "64", label: 64 },
+							{ value: "128", label: 128 },
+						]}
+						onChange={(value: string) => setCardCount(Number(value))}
+					/>
+				</div>
+				<ProductList data={productlist} />
+				<div style={{ display: "flex", justifyContent: "center" }}>
+					<Pagination
+						total={totalPage}
+						pageSize={cardCount}
+						defaultCurrent={1}
+						onChange={onChangePageCount}
+						showSizeChanger={false}
+					/>
+				</div>
+			</Col>
+		</Row>
 	);
 };
 
