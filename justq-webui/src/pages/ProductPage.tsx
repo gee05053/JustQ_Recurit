@@ -1,32 +1,46 @@
 import React, { useState, useEffect } from "react";
-import { Select, Pagination, PaginationProps, Row, Col } from "antd";
+import { Select, Pagination, Row, Col } from "antd";
 import ProductList from "../components/ProductList";
 import axios from "axios";
 
+type paramsType = {
+	cardCount: number;
+	pageCount: number;
+};
 const ProductPage: React.FC = () => {
-	const [cardCount, setCardCount] = useState<number>(4);
-	const [pageCount, setPageCount] = useState<number>(1);
+	const sessionData = window.sessionStorage.getItem("sessionData");
+	var jsonData: paramsType = { cardCount: 4, pageCount: 1 };
+	if (sessionData) {
+		jsonData = JSON.parse(sessionData);
+	}
+	const [params, setParams] = useState<paramsType>(jsonData);
 	const [productlist, setProductList] = useState<Array<object>>([]);
-	const [totalPage, setTotalPage] = useState<number>(0);
-	const onChangePageCount: PaginationProps["onChange"] = (
-		page: number,
-	) => {
-		setPageCount(page);
-	};
+	const [totalProductCount, setTotalProductCount] = useState<number>(0);
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
 				const response = await axios.get("/plist", {
-					params: { cardCount: cardCount, pageCount: pageCount },
+					params: {
+						cardCount: params.cardCount,
+						pageCount: params.pageCount,
+					},
 				});
 				setProductList(response.data.products);
-				setTotalPage(response.data.total);
+				setTotalProductCount(response.data.total);
 			} catch (err) {
 				console.log(err);
 			}
 		};
 		fetchData();
-	}, [cardCount, pageCount]);
+		window.sessionStorage.setItem(
+			"sessionData",
+			JSON.stringify({
+				cardCount: params.cardCount,
+				pageCount: params.pageCount,
+			}),
+		);
+	}, [params]);
+
 	return (
 		<Row
 			align="middle"
@@ -37,7 +51,7 @@ const ProductPage: React.FC = () => {
 					style={{ display: "flex", justifyContent: "end", margin: "8px" }}
 				>
 					<Select
-						defaultValue="4"
+						defaultValue={String(params.cardCount)}
 						style={{
 							width: "67px",
 							textAlign: "center",
@@ -49,16 +63,24 @@ const ProductPage: React.FC = () => {
 							{ value: "64", label: 64 },
 							{ value: "128", label: 128 },
 						]}
-						onChange={(value: string) => setCardCount(Number(value))}
+						onChange={(value: string) =>
+							setParams({
+								cardCount: Number(value),
+								pageCount: params.pageCount,
+							})
+						}
 					/>
 				</div>
 				<ProductList data={productlist} />
 				<div style={{ display: "flex", justifyContent: "center" }}>
 					<Pagination
-						total={totalPage}
-						pageSize={cardCount}
-						defaultCurrent={1}
-						onChange={onChangePageCount}
+						total={totalProductCount}
+						pageSize={params.cardCount}
+						defaultCurrent={params.pageCount}
+						current={params.pageCount}
+						onChange={(page: number) =>
+							setParams({ cardCount: params.cardCount, pageCount: page })
+						}
 						showSizeChanger={false}
 					/>
 				</div>
