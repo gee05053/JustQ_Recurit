@@ -2,16 +2,16 @@ import React from "react";
 import { Row, Col, Card } from "antd";
 
 type productType = {
-	brand?: string;
-	category_code?: string;
-	id?: string;
-	keywords?: Array<string>;
-	main_image?: string;
-	origin?: string;
-	owner_product_code?: string;
-	price?: string;
-	product_name?: string;
-	status?: string;
+	brand?: string | null;
+	category_code?: string | null;
+	id?: string | null;
+	keywords?: Array<string> | null;
+	main_image?: string | undefined;
+	origin?: string | null;
+	owner_product_code?: string | null;
+	price?: string | null;
+	product_name?: string | null;
+	status?: string | null;
 };
 type ListData = {
 	data: Array<productType>;
