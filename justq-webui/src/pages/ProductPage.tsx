@@ -7,6 +7,7 @@ type paramsType = {
 	cardCount: number;
 	pageCount: number;
 };
+
 const ProductPage: React.FC = () => {
 	const sessionData = window.sessionStorage.getItem("sessionData");
 	var jsonData: paramsType = { cardCount: 4, pageCount: 1 };
