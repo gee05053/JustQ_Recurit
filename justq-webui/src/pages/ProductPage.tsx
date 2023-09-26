@@ -67,7 +67,7 @@ const ProductPage: React.FC = () => {
 						onChange={(value: string) =>
 							setParams({
 								cardCount: Number(value),
-								pageCount: params.pageCount,
+								pageCount: 1,
 							})
 						}
 					/>
