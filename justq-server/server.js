@@ -5,9 +5,9 @@ const data = require("./data.json");
 
 app.get("/plist", (req, res) => {
 	res.send({
-		data: data.slice(
-			(req.query.pageCount - 1) * req.query.listCount,
-			req.query.pageCount * req.query.listCount,
+		products: data.slice(
+			(req.query.pageCount - 1) * req.query.cardCount,
+			req.query.pageCount * req.query.cardCount,
 		),
 		total: data.length,
 	});

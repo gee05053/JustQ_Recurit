@@ -6,7 +6,7 @@ import axios from "axios";
 const ProductPage: React.FC = () => {
 	const [cardCount, setCardCount] = useState<number>(4);
 	const [pageCount, setPageCount] = useState<number>(1);
-	const [productlist, setProductList] = useState<Array<any>>([]);
+	const [productlist, setProductList] = useState<Array<object>>([]);
 	const [totalPage, setTotalPage] = useState<number>(0);
 	const onChangePageCount: PaginationProps["onChange"] = (
 		page: number,
@@ -15,15 +15,15 @@ const ProductPage: React.FC = () => {
 	};
 	useEffect(() => {
 		const fetchData = async () => {
-			const data = await axios
-				.get("/plist", {
-					params: { listCount: cardCount, pageCount: pageCount },
-				})
-				.then((res) => {
-					return res.data;
+			try {
+				const response = await axios.get("/plist", {
+					params: { cardCount: cardCount, pageCount: pageCount },
 				});
-			setProductList(data.data);
-			setTotalPage(data.total);
+				setProductList(response.data.products);
+				setTotalPage(response.data.total);
+			} catch (err) {
+				console.log(err);
+			}
 		};
 		fetchData();
 	}, [cardCount, pageCount]);
@@ -33,7 +33,9 @@ const ProductPage: React.FC = () => {
 			style={{ height: "100vh", marginInline: "10%" }}
 		>
 			<Col>
-				<div style={{ display: "flex", justifyContent: "end" }}>
+				<div
+					style={{ display: "flex", justifyContent: "end", margin: "8px" }}
+				>
 					<Select
 						defaultValue="4"
 						style={{
