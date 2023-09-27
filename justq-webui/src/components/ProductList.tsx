@@ -46,7 +46,7 @@ const ProductList: React.FC<ListData> = ({ data }) => {
 							}}
 						>
 							<Link
-								to={`/product?id=${product.id}`}
+								to={`/product/id=${product.id}`}
 								state={{ product: product }}
 							>
 								<Card
