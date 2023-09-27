@@ -39,7 +39,7 @@ const ProductList: React.FC<ListData> = ({ data }) => {
 						<Col
 							xs={24}
 							sm={12}
-							lg={6}
+							lg={data.length > 2 ? 6 : 12 / data.length}
 							key={product.id}
 							style={{
 								textAlign: "center",

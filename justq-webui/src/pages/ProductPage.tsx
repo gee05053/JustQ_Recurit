@@ -1,22 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { Select, Pagination, Row, Col } from "antd";
+import { Select, Pagination, Row, Col, Input, Form, Button } from "antd";
 import ProductList from "../components/ProductList";
 import axios from "axios";
 
 type paramsType = {
 	cardCount: number;
 	pageCount: number;
+	searchString: string;
 };
 
 const ProductPage: React.FC = () => {
 	const sessionData = window.sessionStorage.getItem("sessionData");
-	var jsonData: paramsType = { cardCount: 4, pageCount: 1 };
+	var jsonData: paramsType = {
+		cardCount: 4,
+		pageCount: 1,
+		searchString: "",
+	};
 	if (sessionData) {
 		jsonData = JSON.parse(sessionData);
 	}
 	const [params, setParams] = useState<paramsType>(jsonData);
 	const [productlist, setProductList] = useState<Array<object>>([]);
 	const [totalProductCount, setTotalProductCount] = useState<number>(0);
+	const [form] = Form.useForm();
+
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
@@ -24,6 +31,7 @@ const ProductPage: React.FC = () => {
 					params: {
 						cardCount: params.cardCount,
 						pageCount: params.pageCount,
+						searchString: params.searchString,
 					},
 				});
 				setProductList(response.data.products);
@@ -38,6 +46,7 @@ const ProductPage: React.FC = () => {
 			JSON.stringify({
 				cardCount: params.cardCount,
 				pageCount: params.pageCount,
+				searchString: params.searchString,
 			}),
 		);
 	}, [params]);
@@ -46,9 +55,29 @@ const ProductPage: React.FC = () => {
 		<Row
 			justify="center"
 			align="middle"
-			style={{ height: "100vh", marginInline: "10%" }}
+			style={{
+				height: "100vh",
+				marginInline: "10%",
+			}}
 		>
 			<Col>
+				<Col style={{ textAlign: "center", fontSize: "20px" }}>
+					<Button
+						type="link"
+						onClick={() => {
+							form.setFieldsValue({ search: "" });
+							setParams({
+								cardCount: params.cardCount,
+								pageCount: 1,
+								searchString: "",
+							});
+						}}
+					>
+						<h1 style={{ margin: 0, fontSize: "50px", color: "#205f85" }}>
+							JustQ
+						</h1>
+					</Button>
+				</Col>
 				<Col style={{ textAlign: "end" }}>
 					<Select
 						defaultValue={String(params.cardCount)}
@@ -67,6 +96,7 @@ const ProductPage: React.FC = () => {
 							setParams({
 								cardCount: Number(value),
 								pageCount: 1,
+								searchString: params.searchString,
 							})
 						}
 					/>
@@ -81,10 +111,33 @@ const ProductPage: React.FC = () => {
 						defaultCurrent={params.pageCount}
 						current={params.pageCount}
 						onChange={(page: number) =>
-							setParams({ cardCount: params.cardCount, pageCount: page })
+							setParams({
+								cardCount: params.cardCount,
+								pageCount: page,
+								searchString: params.searchString,
+							})
 						}
 						showSizeChanger={false}
 					/>
+					<Form form={form}>
+						<Form.Item name="search">
+							<Input.Search
+								allowClear={true}
+								style={{
+									width: "400px",
+									marginTop: "13px",
+									marginBottom: "50px",
+								}}
+								onSearch={(value: string) =>
+									setParams({
+										cardCount: params.cardCount,
+										pageCount: 1,
+										searchString: value,
+									})
+								}
+							/>
+						</Form.Item>
+					</Form>
 				</Col>
 			</Col>
 		</Row>
