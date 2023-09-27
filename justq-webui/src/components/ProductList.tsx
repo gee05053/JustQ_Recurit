@@ -33,8 +33,10 @@ const ProductList: React.FC<ListData> = ({ data }) => {
 				{data.map((product) => {
 					return (
 						<Col
+							xs={24}
+							sm={12}
+							lg={6}
 							key={product.id}
-							span={6}
 							style={{
 								textAlign: "center",
 							}}
