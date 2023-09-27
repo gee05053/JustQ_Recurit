@@ -49,7 +49,7 @@ const ProductPage: React.FC = () => {
 			style={{ height: "100vh", marginInline: "10%" }}
 		>
 			<Col>
-				<Col style={{ display: "flex", justifyContent: "end" }}>
+				<Col style={{ textAlign: "end" }}>
 					<Select
 						defaultValue={String(params.cardCount)}
 						style={{
@@ -74,7 +74,7 @@ const ProductPage: React.FC = () => {
 				<Col>
 					<ProductList data={productlist} />
 				</Col>
-				<Col style={{ display: "flex", justifyContent: "center" }}>
+				<Col style={{ textAlign: "center" }}>
 					<Pagination
 						total={totalProductCount}
 						pageSize={params.cardCount}
