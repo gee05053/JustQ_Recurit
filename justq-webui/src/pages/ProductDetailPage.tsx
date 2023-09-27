@@ -35,8 +35,6 @@ const ProductDetailPage: React.FC = () => {
 				>
 					<Col
 						xs={12}
-						sm={12}
-						md={12}
 						lg={6}
 						style={{ textAlign: "center" }}
 					>
@@ -48,7 +46,6 @@ const ProductDetailPage: React.FC = () => {
 					<Col
 						xs={24}
 						sm={12}
-						md={12}
 						lg={6}
 					>
 						<div

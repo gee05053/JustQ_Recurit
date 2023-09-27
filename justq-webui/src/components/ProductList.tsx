@@ -22,7 +22,11 @@ type ListData = {
 
 const ProductList: React.FC<ListData> = ({ data }) => {
 	if (data.length === 0) {
-		return <div>No Data</div>;
+		return (
+			<h1 style={{ margin: "10%", fontSize: "50px", textAlign: "center" }}>
+				No Data
+			</h1>
+		);
 	} else {
 		return (
 			<Row
