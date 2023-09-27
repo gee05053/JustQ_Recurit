@@ -27,7 +27,7 @@ const ProductList: React.FC<ListData> = ({ data }) => {
 		return (
 			<Row
 				gutter={[16, 16]}
-				justify="space-between"
+				justify="center"
 				style={{ margin: "20px 0" }}
 			>
 				{data.map((product) => {

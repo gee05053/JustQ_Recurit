@@ -44,13 +44,12 @@ const ProductPage: React.FC = () => {
 
 	return (
 		<Row
+			justify="center"
 			align="middle"
 			style={{ height: "100vh", marginInline: "10%" }}
 		>
 			<Col>
-				<div
-					style={{ display: "flex", justifyContent: "end", margin: "8px" }}
-				>
+				<Col style={{ display: "flex", justifyContent: "end" }}>
 					<Select
 						defaultValue={String(params.cardCount)}
 						style={{
@@ -71,9 +70,11 @@ const ProductPage: React.FC = () => {
 							})
 						}
 					/>
-				</div>
-				<ProductList data={productlist} />
-				<div style={{ display: "flex", justifyContent: "center" }}>
+				</Col>
+				<Col>
+					<ProductList data={productlist} />
+				</Col>
+				<Col style={{ display: "flex", justifyContent: "center" }}>
 					<Pagination
 						total={totalProductCount}
 						pageSize={params.cardCount}
@@ -84,7 +85,7 @@ const ProductPage: React.FC = () => {
 						}
 						showSizeChanger={false}
 					/>
-				</div>
+				</Col>
 			</Col>
 		</Row>
 	);
